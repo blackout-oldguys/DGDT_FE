@@ -1,12 +1,30 @@
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 function MainPage() {
+  const [showLogo, setShowLogo] = useState(false);
+  const [showTitle, setShowTitle] = useState(false);
+  const [showSubtitle, setShowSubtitle] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setShowLogo(true), 300)
+    setTimeout(() => setShowTitle(true), 600);
+    setTimeout(() => setShowSubtitle(true), 1000);
+    setTimeout(() => setShowNav(true), 1500);
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-200 relative">
-      {/* 중앙 로고 섹션 */}
-      <div className="flex flex-col items-center justify-center h-screen px-4">
-        <h1 className="text-6xl font-bold text-blue-600 mb-8">Sperm Nest</h1>
-        <div className="text-center mb-16">
+      <div className="flex flex-col items-center justify-center h-screen px-4 relative">
+        <div 
+          className={`absolute inset-0 bg-contain bg-right bg-no-repeat duration-700 ease-in-out ${showLogo ? 'opacity-30' : 'opacity-0'}`}
+          style={{ backgroundImage: "url('/logo_white.png')" }}
+        ></div>
+        <h1 className={`text-6xl font-bold text-blue-600 mb-8 relative transition-opacity duration-700 ease-in-out ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
+          Sperm Nest
+        </h1>
+        <div className={`text-center mb-16 relative transition-opacity duration-700 ease-in-out ${showSubtitle ? 'opacity-100' : 'opacity-0'}`}>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
             블록체인 기반 정자 기증 네트워크
           </h2>
@@ -16,13 +34,12 @@ function MainPage() {
         </div>
       </div>
 
-      {/* 하단 고정 네비게이션 바 */}
-      <div className="fixed bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200">
+      <div className={`fixed bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
         <div className="max-w-7xl h-full mx-auto flex justify-between items-center space-x-4">
           <div className="flex h-full items-center ">
             <div className="text-4xl font-bold text-blue-600 px-3 ">Sperm Nest</div>
             <div className="ml-3 text-xl ">
-              블록체인 기반 정자 기증 네트워크
+              블랙아웃 정자은행
             </div>
           </div>
           <div className='flex h-full w-1/3 '>
