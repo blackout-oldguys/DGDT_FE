@@ -37,8 +37,8 @@ function MainPage() {
       <div className={`fixed bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
         <div className="max-w-7xl h-full mx-auto flex justify-between items-center space-x-4">
           <div className="flex h-full items-center ">
-            <div className="ml-3 bg-slate-100 h-full text-4xl font-bold text-blue-600 px-3 ">Sperm Nest</div>
-            <div className="ml-3 text-xl ">
+            <div className="flex justify-center items-center bg-slate-50 h-full text-4xl font-bold text-blue-600 px-10 ">Sperm Nest</div>
+            <div className="ml-10 text-xl">
               블랙아웃 정자은행
             </div>
           </div>
