@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const steps = [
   '동의서 확인',
@@ -9,6 +9,7 @@ const steps = [
 ];
 
 function RegisterPage() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [agreed, setAgreed] = useState(false);
   const [name, setName] = useState('홍길동');
@@ -109,6 +110,9 @@ function RegisterPage() {
     try {
       // API 호출 로직 구현
       console.log('Submitting data:', finalData);
+      alert('전송되었습니다.');
+
+      navigate('/');
     } catch (error) {
       console.error('Error submitting data:', error);
     }
