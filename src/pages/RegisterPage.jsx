@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { registerDonor } from '../api/api';
 
 const steps = [
   '동의서 확인',
@@ -13,7 +14,7 @@ function RegisterPage() {
   const [currentStep, setCurrentStep] = useState(1);
   const [agreed, setAgreed] = useState(false);
   const [name, setName] = useState('홍길동');
-  const [birth, setBirth] = useState(30);
+  const [age, setAge] = useState(30);
   const [height, setHeight] = useState(183);
   const [weight, setWeight] = useState(75);
   const [bodyType, setBodyType] = useState('');
@@ -21,6 +22,7 @@ function RegisterPage() {
   const [personality, setPersonality] = useState('');
   const [education, setEducation] = useState('');
   const [religion, setReligion] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [medicalInfo, setMedicalInfo] = useState({
     bloodInfo: {
@@ -31,8 +33,8 @@ function RegisterPage() {
       venerealDisease: false
     },
     semenTestInfo: {
-      semenVolume: "",
-      spermCount: "",
+      semenVolume: 0,
+      spermCount: 0,
       spermMotility: "",
       spermShape: ""
     },
@@ -75,29 +77,16 @@ function RegisterPage() {
     }));
   };
 
-  // const handleNestedInputChange = (category, subCategory, field, value) => {
-  //   setMedicalInfo(prev => ({
-  //     ...prev,
-  //     [category]: {
-  //       ...prev[category],
-  //       [subCategory]: {
-  //         ...prev[category][subCategory],
-  //         [field]: value
-  //       }
-  //     }
-  //   }));
-  // };
-
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     const finalData = {
-      personalInfo: {
-        name,
-        birth,
-        physicalInfo: {
-          height,
-          weight,
-          bodyType
-        },
+      name,
+      age,
+      physicalInfo: {
+        height,
+        weight,
+        bodyType,
         ethnicity,
         personality,
         education,
@@ -107,15 +96,12 @@ function RegisterPage() {
     };
 
     // API 전송 로직 예시
-    try {
-      // API 호출 로직 구현
-      console.log('Submitting data:', finalData);
-      alert('전송되었습니다.');
+    console.log('Submitting data:', finalData);
+    const donorInfo = await registerDonor(finalData);
+    console.log("Donor registered successfully:", donorInfo);
 
-      navigate('/');
-    } catch (error) {
-      console.error('Error submitting data:', error);
-    }
+    alert('전송되었습니다.');
+    navigate('/');
   };
 
   const handleFamilyHistoryChange = (index, field, value) => {
@@ -207,14 +193,14 @@ function RegisterPage() {
               <p className="mb-4">
                 3. 본 시스템은 귀하의 개인정보 보호를 최우선으로 합니다. 귀하의 이름, 생년월일, 연락처 등 개인정보는 관련 법률(예: 개인정보 보호법, 의료법 등)에 따라 수집 및 처리되며, 귀하의 사전 동의 없이는 어떠한 제3자와도 공유되지 않습니다.
               </p>
-              <p className="mb-4">
+              <div className="mb-4">
                 4. 귀하가 제공한 정자 정보는 다음과 같은 목적으로만 사용됩니다:
                 <ul className="list-disc ml-6">
                   <li>정자 보관 및 관리 서비스 제공</li>
                   <li>의료적 용도로의 사용 (귀하의 명시적 동의가 있을 경우에 한함)</li>
                   <li>관련 연구 및 통계 목적 (개인 식별 불가능한 형태로 익명화 처리된 경우에 한함)</li>
                 </ul>
-              </p>
+              </div>
               <p className="mb-4">
                 5. 귀하는 언제든 본 서비스 이용을 중단하거나 정자 정보 삭제를 요청할 수 있습니다. 삭제 요청은 본 서비스의 고객 지원 채널을 통해 접수되며, 요청 처리 이후 귀하의 정보는 즉시 삭제됩니다.
               </p>
@@ -275,8 +261,8 @@ function RegisterPage() {
                 <label className="block text-lg font-medium text-gray-700">나이</label>
                 <input
                   type="number"
-                  value={birth}
-                  onChange={e => setBirth(e.target.value)}
+                  value={age}
+                  onChange={e => setAge(e.target.value)}
                   placeholder="30"
                   className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                   />
@@ -434,16 +420,16 @@ function RegisterPage() {
                       type="number"
                       step="0.1"
                       value={medicalInfo.semenTestInfo.semenVolume}
-                      onChange={(e) => handleInputChange("semenTestInfo", "semenVolume", e.target.value)}
+                      onChange={(e) => handleInputChange("semenTestInfo", "semenVolume", parseInt(e.target.value, 10))}
                       className="w-full p-2 border rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block text-lg font-medium text-gray-700 mb-2">정자 수</label>
+                    <label className="block text-lg font-medium text-gray-700 mb</div>-2">정자 수</label>
                     <input
                       type="number"
                       value={medicalInfo.semenTestInfo.spermCount}
-                      onChange={(e) => handleInputChange("semenTestInfo", "spermCount", e.target.value)}
+                      onChange={(e) => handleInputChange("semenTestInfo", "spermCount", parseInt(e.target.value, 10))}
                       className="w-full p-2 border rounded-md"
                     />
                   </div>
@@ -559,7 +545,7 @@ function RegisterPage() {
                   </div>
                   <div>
                     <p className="text-gray-600">나이</p>
-                    <p className="font-medium">{birth}세</p>
+                    <p className="font-medium">{age}세</p>
                   </div>
                   <div>
                     <p className="text-gray-600">신장</p>
@@ -672,8 +658,8 @@ function RegisterPage() {
                 <div className="space-y-2">
                   {medicalInfo.interviewInfo.familyHistory.map((history, index) => (
                     <div key={index} className="flex space-x-4">
-                      <p className="font-medium">{history.relation}:</p>
-                      <p>{history.condition}</p>
+                      <div className="font-medium">{history.relation}:</div>
+                      <div>{history.condition}</div>
                     </div>
                   ))}
                 </div>
@@ -683,9 +669,20 @@ function RegisterPage() {
               <div className="flex justify-center space-x-4">
                 <button
                   onClick={handleSubmit}
-                  className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold"
+                  disabled={isSubmitting}
+                  className={`px-8 py-3 bg-blue-500 text-white rounded-lg font-semibold relative
+                    ${isSubmitting ? 'opacity-75 cursor-not-allowed' : 'hover:bg-blue-600'}`}
                 >
-                  정보 제출하기
+                  {isSubmitting ? (
+                    <>
+                      <span className="opacity-0">정보 제출하기</span>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                      </div>
+                    </>
+                  ) : (
+                    "정보 제출하기"
+                  )}
                 </button>
               </div>
             </div>

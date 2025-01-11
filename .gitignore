@@ -25,3 +25,6 @@ dist-ssr
 .vercel
 deploy.sh
 elders.pem
+src/.env
+src/1.js
+src/api/SpermBank.json

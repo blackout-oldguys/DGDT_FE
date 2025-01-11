@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { registerDonor } from "../api/api";
 
 function MainPage() {
   const [showLogo, setShowLogo] = useState(false);
@@ -54,6 +55,7 @@ function MainPage() {
                 기증 받기
               </button>
             </Link>
+            
           </div>
         </div>
       </div>
