@@ -1,0 +1,3 @@
+[submodule "DGDT_FE"]
+	path = DGDT_FE
+	url = https://github.com/blackout-oldguys/DGDT_FE.git
