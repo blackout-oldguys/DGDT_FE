@@ -34,8 +34,8 @@ function MainPage() {
         </div>
       </div>
 
-      <div className={`fixed bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
-        <div className="max-w-7xl h-full mx-auto flex justify-between items-center space-x-4">
+      <div className={`fixed w-full bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
+        <div className="w-full h-full mx-auto flex justify-between items-center space-x-4">
           <div className="flex h-full items-center ">
             <div className="flex justify-center items-center bg-slate-50 h-full text-4xl font-bold text-blue-600 px-10 ">Sperm Nest</div>
             <div className="ml-10 text-xl">
@@ -51,7 +51,7 @@ function MainPage() {
 
             <Link className="w-1/2 flex justify-center bg-blue-600 " to="/recipient">
               <button className="text-2xl text-white">
-                리스트 확인
+                기증 받기
               </button>
             </Link>
           </div>
