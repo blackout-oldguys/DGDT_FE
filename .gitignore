@@ -23,8 +23,3 @@ dist-ssr
 *.sln
 *.sw?
 .vercel
-deploy.sh
-elders.pem
-src/.env
-src/1.js
-src/api/SpermBank.json
