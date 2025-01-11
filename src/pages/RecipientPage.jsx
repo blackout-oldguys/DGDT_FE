@@ -43,7 +43,7 @@ function RecipientPage() {
   const [showFilters, setShowFilters] = useState(false);
 
   return (
-    <div className="h-full w-full bg-slate-200 overflow-y-auto pb-3 ">
+    <div className="h-full w-full bg-slate-200 pb-3 ">
       <div className="shadow-sm border-b border-gray-200">
         <div className="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
           <Link to="/">
@@ -54,13 +54,8 @@ function RecipientPage() {
       </div>
 
       
-      <div className="w-full mx-auto pt-6 mb-5 ">
-          <div className="p-6  ">
+          <div className="p-6 bg-white h-screen ">
             <h2 className="text-3xl text-center font-bold px-2 py-4">정자 기증자 목록</h2>
-            <div className="h-72 mb-4 p-4 rounded text-sm text-gray-600 bg-slate-50 overflow-y-auto">
-
-            <div className="max-w-7xl mx-auto p-4">
-      
             {/* 검색 및 필터 섹션 */}
             <div className="mb-6">
               <div className="flex gap-4 mb-4">
@@ -197,9 +192,6 @@ function RecipientPage() {
       </div>
     </div>
           </div>
-        </div>
-      </div>
-    </div>
   );
 }
 
