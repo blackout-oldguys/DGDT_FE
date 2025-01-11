@@ -2,9 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Mont-Bold';
+  src: url('./assets/fonts/Mont-Bold.ttf') format('opentype');
+}
+@font-face {
+  font-family: 'Mont-Light';
+  src: url('./assets/fonts/Mont-Light.ttf') format('opentype');
+}
+
 html, body, #root {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+  font-family: 'Mont-Light', sans-serif;
 }

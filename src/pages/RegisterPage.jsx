@@ -151,7 +151,7 @@ function RegisterPage() {
       <div className="shadow-sm border-b border-gray-200">
         <div className="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
           <Link to="/">
-            <div className="text-3xl font-bold text-blue-600">Sperm Nest</div>
+            <div className="text-3xl font-Mont-Bold text-blue-600">Sperm Nest</div>
           </Link>
           <div className="mr-10 text-xl font-bold text-slate-700 ">정자 기증자 등록</div>
         </div>

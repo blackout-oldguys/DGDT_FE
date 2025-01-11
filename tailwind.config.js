@@ -5,7 +5,12 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'Mont-Bold': ['Mont-Bold', 'sans-serif'],
+        'Mont-Light': ['Mont-Light', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

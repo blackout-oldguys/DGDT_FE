@@ -22,7 +22,7 @@ function MainPage() {
           className={`absolute inset-0 bg-contain bg-right bg-no-repeat duration-700 ease-in-out ${showLogo ? 'opacity-30' : 'opacity-0'}`}
           style={{ backgroundImage: "url('/logo_white.png')" }}
         ></div>
-        <h1 className={`text-6xl font-bold text-blue-600 mb-8 relative transition-opacity duration-700 ease-in-out ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
+        <h1 className={`text-6xl font-Mont-Bold text-blue-600 mb-8 relative transition-opacity duration-700 ease-in-out ${showTitle ? 'opacity-100' : 'opacity-0'}`}>
           Sperm Nest
         </h1>
         <div className={`text-center mb-16 relative transition-opacity duration-700 ease-in-out ${showSubtitle ? 'opacity-100' : 'opacity-0'}`}>
@@ -38,7 +38,7 @@ function MainPage() {
       <div className={`fixed w-full bottom-0 h-1/5 left-0 right-0 bg-white shadow-lg border-t border-gray-200 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0'}`}>
         <div className="w-full h-full mx-auto flex justify-between items-center space-x-4">
           <div className="flex h-full items-center ">
-            <div className="flex justify-center items-center bg-slate-50 h-full text-4xl font-bold text-blue-600 px-10 ">Sperm Nest</div>
+            <div className="flex justify-center items-center bg-slate-50 h-full text-4xl font-Mont-Bold text-blue-600 px-10 ">Sperm Nest</div>
             <div className="ml-10 text-xl">
               블랙아웃 정자은행
             </div>
