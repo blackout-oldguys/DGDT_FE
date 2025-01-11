@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { registerDonor } from "../api/api";
 
 function MainPage() {
   const [showLogo, setShowLogo] = useState(false);
   const [showTitle, setShowTitle] = useState(false);
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showNav, setShowNav] = useState(false);
+  const [user, setUser] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setShowLogo(true), 300)
@@ -15,8 +15,55 @@ function MainPage() {
     setTimeout(() => setShowNav(true), 1500);
   }, []);
 
+  const handleChangeUser = () => {
+    // if (user) {
+
+    // } else {
+
+    // }
+  }
+
   return (
     <div className="min-h-screen bg-slate-200 relative">
+      <Link to='/recent'>
+        <button 
+          className={`absolute top-6 z-30 right-8 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+        >
+          최신 기증 기록 확인하기
+        </button>
+      </Link>
+
+      <div className={`absolute top-8 left-8 flex items-center space-x-3 z-10 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
+        <span className={`text-gray-700 font-medium  transition-all duration-700 ease-in-out  ${user ? "text-slate-200 ": "text-black "}`}>기증자</span>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            className="sr-only"
+            checked={user}
+            onChange={() => setUser(!user)}
+          />
+          <div
+            className={`
+              w-11 h-6 rounded-full
+              transition-colors duration-200 ease-in-out
+              ${user ? 'bg-blue-600' : 'bg-gray-200'}
+              relative
+            `}
+          >
+            <div
+              className={`
+                absolute top-0.5 left-0.5
+                w-5 h-5 rounded-full
+                bg-white shadow-md
+                transition-transform duration-200 ease-in-out
+                ${user ? 'translate-x-5' : 'translate-x-0'}
+              `}
+            />
+          </div>
+        </label>
+        <span className={`text-gray-700 font-medium transition-all duration-700 ease-in-out  ${user ? "text-black ": "text-slate-200 "}`}>수증자</span>
+      </div>
+
       <div className="flex flex-col items-center justify-center h-screen px-4 relative">
         <div 
           className={`absolute inset-0 bg-contain bg-right bg-no-repeat duration-700 ease-in-out ${showLogo ? 'opacity-30' : 'opacity-0'}`}

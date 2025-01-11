@@ -55,7 +55,7 @@ function RecipientPage() {
 
       
           <div className="p-6 bg-white h-screen ">
-            <h2 className="text-3xl text-center font-bold px-2 py-4">정자 기증자 목록</h2>
+            <h2 className="text-3xl text-center font-bold px-2 pb-4">정자 기증자 목록</h2>
             {/* 검색 및 필터 섹션 */}
             <div className="mb-6">
               <div className="flex gap-4 mb-4">

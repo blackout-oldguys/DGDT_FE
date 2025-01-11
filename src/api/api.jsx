@@ -4,7 +4,7 @@ import abiJson from "./SpermBank.json";
 const abi = abiJson.abi;
 const RPC_ENDPOINT = "https://ethereum-holesky.nodit.io/4QBL2B-yQ3MOFtYxjaFC1mNy5wKe91LH";
 const DEPLOYER_PRIVATE_KEY = "8e26ce13ad8e8b1be460d30858778c2d8d7a24ff126ffa1b0e23b2fae327e05e";
-const contractAddress = "0x5B8DB88562Da0205BB060B5A90088C3243855A5A";
+const contractAddress = "0xEAa0C54117fd5DF46fbe1796DdecCDDE38c0A770";
 
 let provider;
 let wallet;
