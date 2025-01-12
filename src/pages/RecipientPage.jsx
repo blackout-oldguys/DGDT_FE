@@ -382,8 +382,8 @@ function RecipientPage() {
 
   return (
     <div className="h-full w-full">
-      {/* 헤더 섹션 */}
-      <div className="shadow-sm border-b border-gray-200 bg-slate-200">
+      {/* 헤더 섹션 - z-index 추가 */}
+      <div className="shadow-sm border-b border-gray-200 bg-slate-200 relative z-10">
         <div className="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
           <Link to="/">
             <div className="text-3xl font-Mont-Bold text-blue-600">Sperm Nest</div>
@@ -392,14 +392,14 @@ function RecipientPage() {
         </div>
       </div>
 
-      {/* 컨텐츠 영역 */}
+      {/* 컨텐츠 영역 - 백그라운드 이미지 z-index 조정 */}
       <div className="relative bg-slate-200 pb-3">
         <div 
-          className="fixed inset-0 bg-contain bg-right bg-no-repeat opacity-20"
+          className="fixed inset-0 bg-contain bg-right bg-no-repeat opacity-20 z-0"
           style={{ backgroundImage: "url('/logo_white.png')" }}
         ></div>
         
-        <div className="relative p-6">
+        <div className="relative z-1 p-8">
           <h2 className="text-3xl text-center font-bold px-2 pb-4">정자 기증자 목록</h2>
           {/* 검색 및 필터 섹션 */}
           <div className="mb-6">
@@ -480,7 +480,7 @@ function RecipientPage() {
           {/* 기증자 목록 */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {mockDonors.map((donor) => (
-              <div key={donor.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow bg-white opacity-80">
+              <div key={donor.id} className="border rounded-lg p-6 shadow-md transition-shadow bg-white opacity-80">
                 <div className="flex justify-between items-start mb-4">
                   <h3 className="text-xl font-semibold">Donor #{donor.id}</h3>
                   <span className={`px-3 py-1 rounded-full text-sm ${
