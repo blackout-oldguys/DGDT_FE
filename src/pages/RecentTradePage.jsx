@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Clock, FileCheck, User } from 'lucide-react';
+import { getTransLog } from "../api/api";
 // import { Card, CardContent } from '@/components/ui/card';
 
 function RecentTradePage() {
+
   const [transactions] = useState([
     {
       id: "0x7a2b...3f9d",

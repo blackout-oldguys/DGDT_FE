@@ -13,15 +13,18 @@ function MainPage() {
     setTimeout(() => setShowTitle(true), 600);
     setTimeout(() => setShowSubtitle(true), 1000);
     setTimeout(() => setShowNav(true), 1500);
+    localStorage.setItem('userType', '기증자');
   }, []);
 
   const handleChangeUser = () => {
-    // if (user) {
-
-    // } else {
-
-    // }
-  }
+    if (user) {
+      setUser(false);
+      localStorage.setItem('userType', '수증자');
+    } else {
+      setUser(true);
+      localStorage.setItem('userType', '기증자');
+    }
+  };
 
   return (
     <div className="min-h-screen bg-slate-200 relative">
@@ -40,7 +43,7 @@ function MainPage() {
             type="checkbox"
             className="sr-only"
             checked={user}
-            onChange={() => setUser(!user)}
+            onChange={handleChangeUser}
           />
           <div
             className={`

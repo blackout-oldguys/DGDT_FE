@@ -1,35 +1,99 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Search, Filter, ChevronDown } from 'lucide-react';
+import { getTransLog } from "../api/api";
 
-const mockDonors = [
-  {
-    id: 1,
-    personalInfo: {
-      name: "Donor123",
-      birth: 28,
-      physicalInfo: {
-        height: 180,
-        weight: 75,
-        bodyType: "Athletic"
+function parseDonors(csvString) {
+  // 필드 순서에 맞는 기증자 데이터 키와 구조 정의
+  const fields = [
+    "id",
+    "bloodType",
+    "hav",
+    "hbv",
+    "hcv",
+    "venerealDisease",
+    "semenVolume",
+    "spermCount",
+    "spermMotility",
+    "spermShape",
+    "mentalRetardation",
+    "mentalIllness",
+    "epilepsy",
+    "otherConditions",
+    "drugUse",
+    "geneticDisorders",
+    "familyRelation1",
+    "condition1",
+    "familyRelation2",
+    "condition2",
+    "height",
+    "weight",
+    "bodyType",
+    "ethnicity",
+    "personality",
+    "education",
+    "religion",
+    "availability",
+  ];
+
+  // 한 기증자의 필드 개수
+  const fieldsPerDonor = fields.length;
+  const data = Array(csvString)[0];
+  const donors = [];
+
+  for (let i = 0; i < Array(Object.keys(data)).length; i += fieldsPerDonor) {
+    const donorData = data[String(i)]
+    console.log(donorData["5"]);
+
+    const donor = {
+      id: donorData["0"],
+      bloodInfo: {
+        bloodType: donorData["1"]["0"],
+        hav: donorData["1"]["1"] === "true",
+        hbv: donorData["1"]["2"] === "true",
+        hcv: donorData["1"]["3"] === "true",
+        venerealDisease: donorData["1"]["4"] === "true",
       },
-      ethnicity: "Asian",
-      personality: "Extroverted",
-      education: "대학원 졸업",
-      religion: "None"
-    },
-    bloodInfo: {
-      bloodType: "A+",
-    },
-    semenTestInfo: {
-      semenVolume: 3.2,
-      spermCount: 120000000,
-      spermMotility: "Normal",
-      spermShape: "Normal"
-    }
-  },
-  // ... 더 많은 목업 데이터 추가 가능
-];
+      semenTestInfo: {
+        semenVolume: Number(donorData["2"]["0"]),
+        spermCount: Number(donorData["2"]["1"]),
+        spermMotility: donorData["2"]["2"],
+        spermShape: donorData["2"]["3"],
+      },
+      interviewInfo: {
+        medicalHistory: {
+          mentalRetardation: donorData["3"]["0"]["0"] === "true",
+          mentalIllness: donorData["3"]["0"]["1"] === "true",
+          epilepsy: donorData["3"]["0"]["2"] === "true",
+          otherConditions: donorData["3"]["0"]["3"] ? Array(donorData["3"]["0"]["3"]) : [],
+        },
+        pastHistory: {
+          drugUse: donorData["3"]["1"]["0"] === "true",
+          otherConditions: donorData["3"]["1"]["1"] ? Array(donorData["3"]["1"]["1"]) : [],
+        },
+        geneticDisorders: donorData["3"]["2"] ? Array(donorData["3"]["2"]) : [],
+        familyHistory: donorData["3"]["3"]["0"] ? Array(donorData["3"]["3"]["0"]).map((dt) => ({relations : dt["0"], condition : dt["1"]})) : [],
+      },
+      physicalInfo: {
+        height: Number(donorData["4"]["0"]),
+        weight: Number(donorData["4"]["1"]),
+        bodyType: donorData["4"]["2"],
+        ethnicity: donorData["4"]["3"],
+      },
+      personalInfo: {
+        personality: donorData["4"]["4"],
+        education: donorData["4"]["5"],
+        religion: donorData["4"]["6"],
+      },
+      availability: donorData["5"] === "true",
+    };
+    console.log(donor);
+
+    donors.push(donor);
+  }
+
+  return donors;
+}
 
 function RecipientPage() {
   const [filters, setFilters] = useState({
@@ -41,6 +105,18 @@ function RecipientPage() {
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
+  const [donateList, setDonateList] = useState([]);
+
+  useEffect(() => {
+    const getTrans = async () => {
+      const logs = await getTransLog();
+      const newLog = parseDonors(logs);
+      setDonateList(newLog);
+      console.log(newLog);
+    }
+    
+    getTrans();
+  }, []); // 빈 dependency array 추가
 
   return (
     <div className="h-full w-full bg-slate-200 pb-3 ">
@@ -52,8 +128,6 @@ function RecipientPage() {
           <div className="mr-10 text-xl font-bold text-slate-700 ">정자 기증받기</div>
         </div>
       </div>
-
-      
           <div className="p-6 bg-white h-screen ">
             <h2 className="text-3xl text-center font-bold px-2 pb-4">정자 기증자 목록</h2>
             {/* 검색 및 필터 섹션 */}
@@ -123,9 +197,10 @@ function RecipientPage() {
                 onChange={(e) => setFilters({...filters, education: e.target.value})}
               >
                 <option value="">전체</option>
-                <option value="고졸">고졸</option>
-                <option value="대졸">대졸</option>
-                <option value="대학원졸">대학원졸</option>
+                <option value="HighSchool">고등학교 졸업</option>
+                <option value="Bachelor">학사</option>
+                <option value="Master">석사</option>
+                <option value="PhD">박사</option>
               </select>
             </div>
           </div>
@@ -134,10 +209,10 @@ function RecipientPage() {
 
       {/* 기증자 목록 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {mockDonors.map((donor) => (
+        {donateList && donateList.length > 0 && donateList.map((donor) => (
           <div key={donor.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-semibold">Donor #{donor.id}</h3>
+              <h3 className="text-xl font-semibold ... ">Donor #{donor.id}</h3>
               <span className={`px-3 py-1 rounded-full text-sm ${
                 donor.semenTestInfo.spermMotility === 'Normal' 
                 ? 'bg-green-100 text-green-800' 
@@ -150,16 +225,12 @@ function RecipientPage() {
             <div className="space-y-3">
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <p className="text-sm text-gray-500">나이</p>
-                  <p className="font-medium">{donor.personalInfo.birth}세</p>
-                </div>
-                <div>
                   <p className="text-sm text-gray-500">신장</p>
-                  <p className="font-medium">{donor.personalInfo.physicalInfo.height}cm</p>
+                  <p className="font-medium">{donor.physicalInfo.height}cm</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">체형</p>
-                  <p className="font-medium">{donor.personalInfo.physicalInfo.bodyType}</p>
+                  <p className="font-medium">{donor.physicalInfo.bodyType}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">혈액형</p>
@@ -169,13 +240,13 @@ function RecipientPage() {
 
               <div>
                 <p className="text-sm text-gray-500">학력</p>
-                <p className="font-medium">{donor.personalInfo.education}</p>
+                <p className="font-medium">{donor.physicalInfo.education}</p>
               </div>
 
               <div>
                 <p className="text-sm text-gray-500">정자 품질</p>
                 <div className="grid grid-cols-2 gap-2 mt-1">
-                  <p className="text-sm">정자 수: {(donor.semenTestInfo.spermCount / 1000000).toFixed(1)}M/ml</p>
+                  <p className="text-sm">정자 수: {donor.semenTestInfo.spermCount}M/ml</p>
                   <p className="text-sm">정액량: {donor.semenTestInfo.semenVolume}ml</p>
                 </div>
               </div>
@@ -183,7 +254,7 @@ function RecipientPage() {
 
             <button
               className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => console.log(`Selected donor ${donor.id}`)}
+              // onClick={() => console.log(`Selected donor ${donor.id}`)}
             >
               상세정보 보기
             </button>
@@ -191,8 +262,7 @@ function RecipientPage() {
         ))}
       </div>
     </div>
-          </div>
-  );
+  </div>);
 }
 
 export default RecipientPage;
