@@ -177,7 +177,7 @@ function RecipientPage() {
   };
 
   return (
-    <div className="h-full w-full bg-slate-200 pb-3 ">
+    <div className="min-h-screen w-full bg-slate-200 pb-3">
       <div className="shadow-sm border-b border-gray-200">
         <div className="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
           <Link to="/">
@@ -186,30 +186,30 @@ function RecipientPage() {
           <div className="mr-10 text-xl font-bold text-slate-700 ">정자 기증받기</div>
         </div>
       </div>
-          <div className="p-6 bg-white h-screen ">
-            <h2 className="text-3xl text-center font-bold px-2 pb-4">정자 기증자 목록</h2>
-            {/* 검색 및 필터 섹션 */}
-            <div className="mb-6">
-              <div className="flex gap-4 mb-4">
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    placeholder="검색어를 입력하세요"
-                    className="w-full p-3 pl-10 border rounded-lg"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                  />
-                  <Search className="absolute left-3 top-3 text-gray-400" size={20} />
-                </div>
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
-                >
-                  <Filter size={20} />
-                  필터
-                  <ChevronDown size={20} className={`transform transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-                </button>
-              </div>
+      <div className="p-6 bg-white min-h-screen mx-10 rounded-lg mt-10">
+        <h2 className="text-3xl text-center font-bold px-2 pb-4">정자 기증자 목록</h2>
+        {/* 검색 및 필터 섹션 */}
+        <div className="mb-6">
+          <div className="flex gap-4 mb-4">
+            <div className="flex-1 relative">
+              <input
+                type="text"
+                placeholder="검색어를 입력하세요"
+                className="w-full p-3 pl-10 border rounded-lg"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Search className="absolute left-3 top-3 text-gray-400" size={20} />
+            </div>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
+            >
+              <Filter size={20} />
+              필터
+              <ChevronDown size={20} className={`transform transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+            </button>
+          </div>
 
         {/* 필터 패널 */}
         {showFilters && (
@@ -268,7 +268,7 @@ function RecipientPage() {
       {/* 기증자 목록 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDonors && filteredDonors.length > 0 && filteredDonors.map((donor) => (
-          <div key={donor.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+          <div key={donor.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow relative min-h-[350px]">
             <span className={`px-3 py-1 rounded-full text-sm ${
                 donor.semenTestInfo.spermMotility === 'Excellent'
                  || donor.semenTestInfo.spermMotility === 'Good'  
@@ -310,15 +310,17 @@ function RecipientPage() {
               </div>
             </div>
 
-            <button
-              className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              onClick={() => {
-                setSelectedDonor(donor);
-                setIsModalOpen(true);              
-              }}
-            >
-              상세정보 보기
-            </button>
+            <div className="absolute bottom-6 left-6 right-6">
+              <button
+                className="w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                onClick={() => {
+                  setSelectedDonor(donor);
+                  setIsModalOpen(true);              
+                }}
+              >
+                상세정보 보기
+              </button>
+            </div>
           </div>
         ))}
         {

@@ -154,7 +154,7 @@ function RegisterPage() {
 
   return (
     <div className="h-full w-full bg-slate-200 overflow-y-auto pb-3 ">
-      <div className="shadow-sm border-b border-gray-200">
+      <div className="shadow-sm border-b border-gray-200 z-20 relative">
         <div className="max-w-7xl h-16 mx-auto flex items-center px-4 justify-between">
           <Link to="/">
             <div className="text-3xl font-Mont-Bold text-blue-600">Sperm Nest</div>
@@ -163,12 +163,18 @@ function RegisterPage() {
         </div>
       </div>
 
-      <div className="max-w-3xl mx-auto pt-6 mb-5 ">
-        <div className="flex justify-between items-center mb-6">
+      <div className="relative">
+        <div 
+          className={`fixed inset-0 bg-contain bg-right bg-no-repeat opacity-30 z-10`}
+          style={{ backgroundImage: "url('/logo_white.png')" }}
+        ></div>
+
+      <div className="max-w-3xl mx-auto pt-6 mb-5 relative z-20">
+        <div className="flex justify-between items-center mb-6 ">
           {steps.map((step, index) => (
             <div key={index} className="flex items-center" onClick={() => setCurrentStep(index + 1)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center
-                ${currentStep > index + 1 ? 'bg-green-300' :
+                ${currentStep > index + 1 ? 'bg-gray-400' :
                   currentStep === index + 1 ? 'bg-blue-400' : 'bg-gray-300'}
                 text-white`}>
                 {index + 1}
@@ -184,7 +190,7 @@ function RegisterPage() {
         </div>
 
         {currentStep === 1 && (
-          <div className="bg-white p-6 rounded-lg shadow-md ">
+          <div className="bg-white p-6 rounded-lg shadow-md opacity-70">
             <h2 className="text-2xl text-center font-bold mb-4">정자등록 동의서</h2>
             <div className="h-72 mb-4 p-4 rounded text-sm text-gray-600 bg-slate-50 overflow-y-auto">
               <p className="mb-4">
@@ -248,7 +254,7 @@ function RegisterPage() {
         )}
 
         {currentStep === 2 && (
-          <div className="bg-white p-6 rounded-lg shadow-md">
+          <div className="bg-white p-6 rounded-lg shadow-md opacity-70">
             <h2 className="text-2xl text-center font-bold mb-4">개인정보 입력</h2>
             <div className="space-y-6">
               {/* 기본 정보 */}
@@ -376,7 +382,7 @@ function RegisterPage() {
         )}
 
         {currentStep === 3 && (
-          <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mb-2">
+          <div className="w-full max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mb-2 opacity-70">
               <h2 className="text-2xl text-center font-bold mb-6">의료정보 입력</h2>
               
               {/* Blood Information */}
@@ -541,7 +547,7 @@ function RegisterPage() {
         )}
 
         {currentStep === 4 && (
-          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+          <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md opacity-70">
             <h2 className="text-2xl font-bold text-center mb-8">최종 정보 확인</h2>
               {/* 개인 정보 섹션 */}
               <section className="mb-8">
@@ -695,6 +701,7 @@ function RegisterPage() {
               </div>
             </div>
           )}
+      </div>
       </div>
     </div>
   );
