@@ -172,6 +172,7 @@ function RecipientPage() {
     } catch (e) {
       alert.log("에러가 발생했씁니다.");
       console.log(e);
+      navigate('/');
     }
   };
 

@@ -106,6 +106,7 @@ function RegisterPage() {
     } catch (e) {
       console.log("에러가 발생했습니다. " + e);
       alert('에러가 발생했습니다.');
+      navigate('/');
     }
   };
 
@@ -420,7 +421,7 @@ function RegisterPage() {
                 <h3 className="text-xl font-semibold mb-4">정액 검사 정보</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-lg font-medium text-gray-700 mb-2">정액량 (mL)</label>
+                    <label className="block text-lg font-medium text-gray-700 mb-2">정액량 (μL)</label>
                     <input
                       type="number"
                       step="0.1"
