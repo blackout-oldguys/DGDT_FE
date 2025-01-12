@@ -117,7 +117,7 @@ function MainPage() {
               className={`w-1/2 flex justify-center items-center border text-2xl transition-all duration-200 ease-in-out
                 ${user ? 'text-white bg-blue-600' : 'text-black bg-white'}`}
             >
-              기증 받기
+              수증 받기
             </button>
           </div>
         </div>
