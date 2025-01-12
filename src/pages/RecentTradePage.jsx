@@ -13,17 +13,13 @@ function RecentTradePage() {
       donor: "0x3ab...c4d2",
       recipient: "0x8fe...9a1b",
       status: "완료",
-      type: "A+",
-      quality: "상위 10%"
     },
     {
       id: "0x6c1a...2e8b",
       timestamp: "2025-01-12 13:15:30",
       donor: "0x2dc...b3a4",
       recipient: "0x5gh...7k9m",
-      status: "진행중",
-      type: "B+",
-      quality: "상위 15%"
+      status: "완료",
     },
     {
       id: "0x5b9d...1f7c",
@@ -31,8 +27,6 @@ function RecentTradePage() {
       donor: "0x4ef...d5c6",
       recipient: "0x9lm...2n4p",
       status: "완료",
-      type: "O+",
-      quality: "상위 5%"
     }
   ]);
 
@@ -49,7 +43,7 @@ return (
     <div className="min-h-screen bg-slate-200 p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-4xl font-bold text-blue-600">최신 기증 기록</h1>
+          <h1 className="text-4xl font-bold text-centered text-black ">최신 기증 기록</h1>
           <div className="text-gray-600">
             총 거래수: {transactions.length}
           </div>

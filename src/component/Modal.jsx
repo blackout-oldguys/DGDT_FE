@@ -61,8 +61,8 @@ const Modal = ({ donor, isOpen, onClose, onTrade }) => {
           <div className="space-y-2">
             <h3 className="text-lg font-semibold border-b pb-2">정액 검사 정보</h3>
             <div className="grid grid-cols-4 gap-4">
-              <div>정액량: {donor.semenTestInfo.semenVolume}ml</div>
-              <div>정자 수: {donor.semenTestInfo.spermCount}/ml</div>
+              <div>정액량: {donor.semenTestInfo.semenVolume}μl</div>
+              <div>정자 수: {donor.semenTestInfo.spermCount}마리</div>
               <div>정자 운동성: {donor.semenTestInfo.spermMotility}</div>
               <div>정자 형태: {donor.semenTestInfo.spermShape}</div>
             </div>
