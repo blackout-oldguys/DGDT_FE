@@ -146,6 +146,20 @@ function RegisterPage() {
     }
   };
 
+  const isPersonalInfoComplete = () => {
+    return (
+      name.trim() !== '' &&
+      age > 0 &&
+      height > 0 &&
+      weight > 0 &&
+      bodyType !== '' &&
+      ethnicity !== '' &&
+      personality !== '' &&
+      education !== '' &&
+      religion !== ''
+    );
+  };
+
   return (
     <div className="h-full w-full bg-slate-200 overflow-y-auto pb-3 ">
       <div className="shadow-sm border-b border-gray-200">
@@ -162,7 +176,7 @@ function RegisterPage() {
           {steps.map((step, index) => (
             <div key={index} className="flex items-center" onClick={() => setCurrentStep(index + 1)}>
               <div className={`w-8 h-8 rounded-full flex items-center justify-center
-                ${currentStep > index + 1 ? 'bg-green-300' :
+                ${currentStep > index + 1 ? 'bg-gray-500' :
                   currentStep === index + 1 ? 'bg-blue-400' : 'bg-gray-300'}
                 text-white`}>
                 {index + 1}
@@ -180,7 +194,7 @@ function RegisterPage() {
         {currentStep === 1 && (
           <div className="bg-white p-6 rounded-lg shadow-md ">
             <h2 className="text-2xl text-center font-bold mb-4">정자등록 동의서</h2>
-            <div className="h-72 mb-4 p-4 rounded text-sm text-gray-600 bg-slate-50 overflow-y-auto">
+            <div className="max-h-[calc(100vh-400px)] mb-4 p-4 rounded text-sm text-gray-600 bg-slate-50 overflow-y-auto">
               <p className="mb-4">
                 본 동의서는 정자 등록 절차와 관련하여 귀하의 개인정보 및 생체 정보 보호, 등록된 정자의 사용 목적, 그리고 관련 법률에 따른 의무사항을 포함한 중요한 내용을 포함하고 있습니다. 아래의 내용을 주의 깊게 읽어보시고 동의 여부를 결정해주시기 바랍니다.
               </p>
@@ -295,7 +309,7 @@ function RegisterPage() {
               <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-lg font-medium text-gray-700">체형</label>
-                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value={bodyType} onChange={(e) => setBodyType(e.target.value)}>
+                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 [&>option[value='']]:text-gray-400" value={bodyType} onChange={(e) => setBodyType(e.target.value)}>
                   <option value="">선택해주세요</option>
                   <option value="Slim">마른 체형</option>
                   <option value="Athletic">운동선수형</option>
@@ -306,7 +320,7 @@ function RegisterPage() {
       
               <div>
                 <label className="block text-lg font-medium text-gray-700">인종</label>
-                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value={ethnicity} onChange={(e) => setEthnicity(e.target.value)}>
+                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 [&>option[value='']]:text-gray-400" value={ethnicity} onChange={(e) => setEthnicity(e.target.value)}>
                   <option value="">선택해주세요</option>
                   <option value="Asian">아시아인</option>
                   <option value="Caucasian">백인</option>
@@ -321,7 +335,7 @@ function RegisterPage() {
 
               <div>
                 <label className="block text-lg font-medium text-gray-700">성격</label>
-                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value={personality} onChange={(e) => setPersonality(e.target.value)}>
+                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 [&>option[value='']]:text-gray-400" value={personality} onChange={(e) => setPersonality(e.target.value)}>
                   <option value="">선택해주세요</option>
                   <option value="Introverted">내향적</option>
                   <option value="Extroverted">외향적</option>
@@ -331,7 +345,7 @@ function RegisterPage() {
       
               <div>
                 <label className="block text-lg font-medium text-gray-700">최종학력</label>
-                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value={education} onChange={(e) => setEducation(e.target.value)}>
+                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 [&>option[value='']]:text-gray-400" value={education} onChange={(e) => setEducation(e.target.value)}>
                   <option value="">선택해주세요</option>
                   <option value="HighSchool">고등학교 졸업</option>
                   <option value="Bachelor">학사</option>
@@ -343,7 +357,7 @@ function RegisterPage() {
       
               <div>
                 <label className="block text-lg font-medium text-gray-700">종교</label>
-                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" value={religion} onChange={(e) => setReligion(e.target.value)}>
+                <select className="mt-1 block w-full text-lg rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 [&>option[value='']]:text-gray-400" value={religion} onChange={(e) => setReligion(e.target.value)}>
                   <option value="">선택해주세요</option>
                   <option value="None">무교</option>
                   <option value="Christianity">기독교</option>
@@ -357,9 +371,9 @@ function RegisterPage() {
       
             <button
               onClick={handleNext}
-              disabled={!agreed}
+              disabled={!isPersonalInfoComplete()}
               className={`w-full text-xl py-2 px-4 rounded mt-6 ${
-                agreed
+                isPersonalInfoComplete()
                   ? 'bg-blue-500 hover:bg-blue-600 text-white'
                   : 'bg-gray-300 cursor-not-allowed text-gray-500'
               }`}
@@ -382,7 +396,7 @@ function RegisterPage() {
                     <select 
                       value={medicalInfo.bloodInfo.bloodType}
                       onChange={(e) => handleInputChange("bloodInfo", "bloodType", e.target.value)}
-                      className="w-full p-2 border rounded-md"
+                      className="w-full p-2 border rounded-md [&>option[value='']]:text-gray-400"
                     >
                       <option value="">선택해주세요</option>
                       <option value="A">A</option>
@@ -425,7 +439,7 @@ function RegisterPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-lg font-medium text-gray-700 mb</div>-2">정자 수</label>
+                    <label className="block text-lg font-medium text-gray-700 mb-2">정자 수</label>
                     <input
                       type="number"
                       value={medicalInfo.semenTestInfo.spermCount}

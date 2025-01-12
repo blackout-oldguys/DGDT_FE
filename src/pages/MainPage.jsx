@@ -1,5 +1,6 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Loading from './Loading';
 
 function MainPage() {
   const [showLogo, setShowLogo] = useState(false);
@@ -7,12 +8,14 @@ function MainPage() {
   const [showSubtitle, setShowSubtitle] = useState(false);
   const [showNav, setShowNav] = useState(false);
   const [user, setUser] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => setShowLogo(true), 300)
-    setTimeout(() => setShowTitle(true), 600);
-    setTimeout(() => setShowSubtitle(true), 1000);
-    setTimeout(() => setShowNav(true), 1500);
+    setTimeout(() => setShowLogo(true), 500)
+    setTimeout(() => setShowTitle(true), 1000);
+    setTimeout(() => setShowSubtitle(true), 1500);
+    setTimeout(() => setShowNav(true), 2000);
   }, []);
 
   const handleChangeUser = () => {
@@ -23,18 +26,27 @@ function MainPage() {
     // }
   }
 
+  const handleNavigation = (path) => {
+    setIsLoading(true);
+    setTimeout(() => {
+      navigate(path);
+    }, 2100);
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-200 relative">
-      <Link to='/recent'>
-        <button 
-          className={`absolute top-6 z-30 right-8 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
-        >
-          최신 기증 기록 확인하기
-        </button>
-      </Link>
+      <button 
+        onClick={() => handleNavigation('/recent')}
+        className={`absolute top-6 z-30 right-8 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}
+      >
+        최신 기증 기록 확인하기
+      </button>
 
       <div className={`absolute top-8 left-8 flex items-center space-x-3 z-10 transition-all duration-700 ease-in-out ${showNav ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0'}`}>
-        <span className={`text-gray-700 font-medium  transition-all duration-700 ease-in-out  ${user ? "text-slate-200 ": "text-black "}`}>기증자</span>
         <label className="relative inline-flex items-center cursor-pointer">
           <input
             type="checkbox"
@@ -46,7 +58,7 @@ function MainPage() {
             className={`
               w-11 h-6 rounded-full
               transition-colors duration-200 ease-in-out
-              ${user ? 'bg-blue-600' : 'bg-gray-200'}
+              ${user ? 'bg-blue-600' : 'bg-blue-600'}
               relative
             `}
           >
@@ -61,7 +73,8 @@ function MainPage() {
             />
           </div>
         </label>
-        <span className={`text-gray-700 font-medium transition-all duration-700 ease-in-out  ${user ? "text-black ": "text-slate-200 "}`}>수증자</span>
+        <span className={`text-gray-700 font-medium  transition-all duration-700 ease-in-out`}>{user ? "수증자" : "기증자"} 모드</span>
+
       </div>
 
       <div className="flex flex-col items-center justify-center h-screen px-4 relative">
@@ -91,18 +104,21 @@ function MainPage() {
             </div>
           </div>
           <div className='flex h-full w-1/3 '>
-            <Link className="w-1/2 flex justify-center border" to="/register">
-              <button className="text-2xl text-black">
-                기증자 접수
-              </button>
-            </Link>
+            <button 
+              onClick={() => handleNavigation('/register')}
+              className={`w-1/2 flex justify-center items-center border text-2xl transition-all duration-200 ease-in-out
+                ${user ? 'text-black bg-white' : 'text-white bg-blue-600'}`}
+            >
+              기증자 접수
+            </button>
 
-            <Link className="w-1/2 flex justify-center bg-blue-600 " to="/recipient">
-              <button className="text-2xl text-white">
-                기증 받기
-              </button>
-            </Link>
-            
+            <button 
+              onClick={() => handleNavigation('/recipient')}
+              className={`w-1/2 flex justify-center items-center border text-2xl transition-all duration-200 ease-in-out
+                ${user ? 'text-white bg-blue-600' : 'text-black bg-white'}`}
+            >
+              기증 받기
+            </button>
           </div>
         </div>
       </div>
