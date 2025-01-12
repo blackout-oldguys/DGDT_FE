@@ -441,8 +441,10 @@ function RegisterPage() {
                       className="w-full p-2 border rounded-md"
                     >
                       <option value="">선택해주세요</option>
-                      <option value="Normal">정상</option>
-                      <option value="Abnormal">비정상</option>
+                      <option value="Excellent">최상</option>
+                      <option value="Good">좋음</option>
+                      <option value="Average">평균</option>
+                      <option value="Bad">나쁨</option>
                     </select>
                   </div>
                   <div>

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Search, Filter, ChevronDown } from 'lucide-react';
-import { getTransLog } from "../api/api";
+import { getTransLog, makeTrade } from "../api/api";
+import Modal from "../component/Modal";
 
 function parseDonors(csvString) {
   // 필드 순서에 맞는 기증자 데이터 키와 구조 정의
@@ -37,13 +38,12 @@ function parseDonors(csvString) {
   ];
 
   // 한 기증자의 필드 개수
-  const fieldsPerDonor = fields.length;
   const data = Array(csvString)[0];
+  console.log(Object.keys(data).length);
   const donors = [];
 
-  for (let i = 0; i < Array(Object.keys(data)).length; i += fieldsPerDonor) {
+  for (let i = 0; i < Object.keys(data).length; i++) {
     const donorData = data[String(i)]
-    console.log(donorData["5"]);
 
     const donor = {
       id: donorData["0"],
@@ -85,10 +85,8 @@ function parseDonors(csvString) {
         education: donorData["4"]["5"],
         religion: donorData["4"]["6"],
       },
-      availability: donorData["5"] === "true",
     };
     console.log(donor);
-
     donors.push(donor);
   }
 
@@ -101,22 +99,77 @@ function RecipientPage() {
     minHeight: '',
     maxHeight: '',
     education: '',
-    ethnicity: ''
   });
   const [searchTerm, setSearchTerm] = useState('');
   const [showFilters, setShowFilters] = useState(false);
   const [donateList, setDonateList] = useState([]);
+  const [filteredDonors, setFilteredDonors] = useState([]);
+  
+  useEffect(() => {
+    const filterDonors = () => {
+      let filtered = [...donateList];
+      console.log(filtered);
+      // 혈액형 필터링
+      if (filters.bloodType !== '') {
+        filtered = filtered.filter(donor => 
+          donor.bloodInfo.bloodType === filters.bloodType
+        );
+      }
+      console.log(filtered);
+
+      // 정자 수 필터링
+      if (filters.minHeight !== '') {
+        filtered = filtered.filter(donor => 
+          donor.physicalInfo.height >= parseInt(filters.minHeight)
+        );
+      }
+      console.log(filtered);
+
+      // 정자 수 필터링
+      if (filters.maxHeight !== '') {
+        filtered = filtered.filter(donor => 
+          donor.physicalInfo.height <= parseInt(filters.maxHeight)
+        );
+      }
+      console.log(filtered);
+
+      // 정액량 필터링
+      if (filters.education !== '') {
+        filtered = filtered.filter(donor => 
+          donor.personalInfo.education == filters.education
+        );
+      }
+      console.log(filtered);
+
+      setFilteredDonors(filtered);
+    };
+  
+    filterDonors();
+  }, [filters, donateList]);
 
   useEffect(() => {
     const getTrans = async () => {
       const logs = await getTransLog();
       const newLog = parseDonors(logs);
       setDonateList(newLog);
-      console.log(newLog);
     }
     
     getTrans();
   }, []); // 빈 dependency array 추가
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedDonor, setSelectedDonor] = useState(null);
+  const navigate = useNavigate();
+
+  const handleTrade = async () => {
+    // 거래 로직 구현
+    console.log(selectedDonor.id);
+    await makeTrade(selectedDonor.id);
+    alert("거래가 완료되었습니다.");
+    navigate("/");
+    // console.log('거래 시작:', selectedDonor.id);
+  };
 
   return (
     <div className="h-full w-full bg-slate-200 pb-3 ">
@@ -209,17 +262,19 @@ function RecipientPage() {
 
       {/* 기증자 목록 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {donateList && donateList.length > 0 && donateList.map((donor) => (
+        {filteredDonors && filteredDonors.length > 0 && filteredDonors.map((donor) => (
           <div key={donor.id} className="border rounded-lg p-6 hover:shadow-lg transition-shadow">
-            <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-semibold ... ">Donor #{donor.id}</h3>
-              <span className={`px-3 py-1 rounded-full text-sm ${
-                donor.semenTestInfo.spermMotility === 'Normal' 
+            <span className={`px-3 py-1 rounded-full text-sm ${
+                donor.semenTestInfo.spermMotility === 'Excellent'
+                 || donor.semenTestInfo.spermMotility === 'Good'  
                 ? 'bg-green-100 text-green-800' 
                 : 'bg-yellow-100 text-yellow-800'
               }`}>
                 {donor.semenTestInfo.spermMotility}
-              </span>
+            </span>
+
+            <div className="flex justify-between items-start mb-4 truncate">
+              <h3 className="text-xl font-semibold ">Donor #{donor.id.slice(0, 10) + "..."}</h3>
             </div>
 
             <div className="space-y-3">
@@ -236,11 +291,10 @@ function RecipientPage() {
                   <p className="text-sm text-gray-500">혈액형</p>
                   <p className="font-medium">{donor.bloodInfo.bloodType}</p>
                 </div>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-500">학력</p>
-                <p className="font-medium">{donor.physicalInfo.education}</p>
+                <div>
+                  <p className="text-sm text-gray-500">학력</p>
+                  <p className="font-medium">{donor.personalInfo.education}</p>
+                </div>
               </div>
 
               <div>
@@ -254,12 +308,23 @@ function RecipientPage() {
 
             <button
               className="w-full mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-              // onClick={() => console.log(`Selected donor ${donor.id}`)}
+              onClick={() => {
+                setSelectedDonor(donor);
+                setIsModalOpen(true);              
+              }}
             >
               상세정보 보기
             </button>
           </div>
         ))}
+        {
+          <Modal
+            donor={selectedDonor}
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onTrade={handleTrade}
+          />
+        }
       </div>
     </div>
   </div>);
