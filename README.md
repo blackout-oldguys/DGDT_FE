@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Welcome to **Sperm Nest**, an innovative platform designed and developed during the **BLACKOUT Hackathon** by the **포항공대 뒷방늙은이들** team. This project combines cutting-edge blockchain technology with an intuitive interface to create a transparent and efficient donor registry system.
+Welcome to **SPERM NEST**, an innovative platform designed and developed during the **BLACKOUT Hackathon** by the **포항공대 뒷방늙은이** team. This project combines blockchain technology and use case with an intuitive interface to create a transparent and efficient donor registry system.
 
 ## About the Project
 
@@ -20,29 +20,27 @@ Welcome to **Sperm Nest**, an innovative platform designed and developed during 
    - Donors provide their personal, medical, and physical information.  
    - Data is validated and securely stored on the blockchain.  
 
-2. **Data Retrieval**  
-   - Authorized users can query donor information with guaranteed integrity and transparency.  
-
-3. **Smart Contract Automation**  
+2. **Smart Contract Automation**  
    - All operations are handled via Ethereum smart contracts for security and trustless execution.
 
 ## Tech Stack
 
 - **Frontend**: React, TailwindCSS
-- **Backend**: Node.js, Express
-- **Blockchain**: Ethereum, Solidity, ethers.js
-- **Hosting**: Vercel
-- **Development Tools**: Vite, Hardhat
+- **Backend**: Node.js
+- **Blockchain**: Ethereum, ethers.js
+- **Hosting**: AWS
+- **Development Tools**: Vite, Nodit API
 
 ## Team
 
-We are **포항공대 뒷방늙은이들**, a group of passionate developers and blockchain enthusiasts who came together to create this project during the **BLACKOUT Hackathon**. Our goal is to showcase the potential of blockchain in real-world applications.
+We are **포항공대 뒷방늙은이**, a group of passionate developers and blockchain enthusiasts who came together to create this project during the **BLACKOUT Hackathon**. Our goal is to showcase the potential of blockchain in real-world applications.
 
 ### Members
-- **Member 1**: Backend & Blockchain Developer  
+- **Member 1**: Only Blockchain Developer  
 - **Member 2**: Frontend Developer  
 - **Member 3**: UI/UX Designer  
-- **Member 4**: Project Manager  
+- **Member 4**: Project Manager 
+- **Member 5**: Advisor
 
 ## Future Plans
 
@@ -61,7 +59,7 @@ We are **포항공대 뒷방늙은이들**, a group of passionate developers and
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-repo/sperm-nest.git
+git clone https://github.com/blackout-oldguys/DGDT_FE.git
 cd sperm-nest
 ```
 
