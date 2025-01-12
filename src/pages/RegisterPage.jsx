@@ -97,11 +97,16 @@ function RegisterPage() {
 
     // API 전송 로직 예시
     console.log('Submitting data:', finalData);
-    const donorInfo = await registerDonor(finalData);
-    console.log("Donor registered successfully:", donorInfo);
 
-    alert('전송되었습니다.');
-    navigate('/');
+    try {
+      const donorInfo = await registerDonor(finalData);
+      console.log("Donor registered successfully:", donorInfo);
+      alert('전송되었습니다.');
+      navigate('/');
+    } catch (e) {
+      console.log("에러가 발생했습니다. " + e);
+      alert('에러가 발생했습니다.');
+    }
   };
 
   const handleFamilyHistoryChange = (index, field, value) => {
@@ -626,7 +631,7 @@ function RegisterPage() {
               {/* 병력 정보 섹션 */}
               <section className="mb-8">
                 <h3 className="text-xl font-semibold mb-4 pb-2 border-b">병력 정보</h3>
-                <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-gray-600">정신 건강</p>
                     <ul className="list-disc ml-5">

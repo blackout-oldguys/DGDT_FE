@@ -164,11 +164,15 @@ function RecipientPage() {
 
   const handleTrade = async () => {
     // 거래 로직 구현
-    console.log(selectedDonor.id);
-    await makeTrade(selectedDonor.id);
-    alert("거래가 완료되었습니다.");
-    navigate("/");
-    // console.log('거래 시작:', selectedDonor.id);
+    try {
+      console.log(selectedDonor.id);
+      await makeTrade(selectedDonor.id);
+      alert("거래가 기록되었습니다.");
+      navigate("/");
+    } catch (e) {
+      alert.log("에러가 발생했씁니다.");
+      console.log(e);
+    }
   };
 
   return (
@@ -281,27 +285,26 @@ function RecipientPage() {
               <div className="grid grid-cols-2 gap-2">
                 <div>
                   <p className="text-sm text-gray-500">신장</p>
-                  <p className="font-medium">{donor.physicalInfo.height}cm</p>
+                  <p className="font-medium">{donor.physicalInfo?.height}cm</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">체형</p>
-                  <p className="font-medium">{donor.physicalInfo.bodyType}</p>
+                  <p className="font-medium">{donor.physicalInfo?.bodyType}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">혈액형</p>
-                  <p className="font-medium">{donor.bloodInfo.bloodType}</p>
+                  <p className="font-medium">{donor.bloodInfo?.bloodType}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">학력</p>
-                  <p className="font-medium">{donor.personalInfo.education}</p>
+                  <p className="font-medium">{donor.personalInfo?.education}</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-sm text-gray-500">정자 품질</p>
-                <div className="grid grid-cols-2 gap-2 mt-1">
-                  <p className="text-sm">정자 수: {donor.semenTestInfo.spermCount}M/ml</p>
-                  <p className="text-sm">정액량: {donor.semenTestInfo.semenVolume}ml</p>
+                <div className="grid grid-cols-2 gap-2 mt-1 ">
+                  <p className="text-medium">정자수: <br/> {donor.semenTestInfo.spermCount} μl</p>
+                  <p className="text-medium">정액량: <br/> {donor.semenTestInfo.semenVolume} 마리</p>
                 </div>
               </div>
             </div>

@@ -32,9 +32,6 @@ export const registerDonor = async (donorData) => {
   }
 
   const admin = await spermBank.admin();
-  console.log("Admin:", admin);
-  console.log(donorData);
-
   const tx = await spermBank.registerDonor(
     donorData.bloodInfo,
     donorData.semenTestInfo,
@@ -42,9 +39,7 @@ export const registerDonor = async (donorData) => {
     donorData.physicalInfo,
   );
 
-  console.log("Transaction hash:", tx);
   await tx.wait();
-  console.log("Donor registered!");
 
   return;
 };
@@ -87,4 +82,21 @@ export const makeTrade = async (input) => {
   const result = await receiveTx.wait();
 
   return;
+}
+
+export const getTradeLog = async () => {
+  try {
+    provider = new ethers.JsonRpcProvider(RPC_ENDPOINT);
+    const privateKey = DEPLOYER_PRIVATE_KEY
+
+    wallet = new ethers.Wallet(privateKey, provider);
+    spermBank = new ethers.Contract(contractAddress, abi, wallet);
+  } catch (error) {
+    console.error("Wallet initialization error:", error);
+  }
+
+  const admin = await spermBank.admin();
+  const receivers = await spermBank.getReceiverHistory();
+
+  return receivers;
 }
